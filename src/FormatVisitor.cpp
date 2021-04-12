@@ -88,7 +88,7 @@ std::string FormatVisitor::commentAfter(tree::ParseTree* node, const std::string
             ss << indent();
             lastComment = false;
         } else if (token->getType() == LuaLexer::SHEBANG) {
-            ss << token->getText() << "\n\n";
+            ss << token->getText();
         } else if (token->getType() == LuaLexer::WS) {
         } else {
             break;
