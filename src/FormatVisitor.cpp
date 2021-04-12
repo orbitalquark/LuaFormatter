@@ -90,6 +90,10 @@ std::string FormatVisitor::commentAfter(tree::ParseTree* node, const std::string
         } else if (token->getType() == LuaLexer::SHEBANG) {
             ss << token->getText();
         } else if (token->getType() == LuaLexer::WS) {
+            if (token->getText() == "\n" || token->getText() == "\n\n") {
+              ss << token->getText(); // do not squish lines
+              lastComment = false;
+            }
         } else {
             break;
         }
