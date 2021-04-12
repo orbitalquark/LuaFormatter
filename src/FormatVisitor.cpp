@@ -990,6 +990,10 @@ antlrcpp::Any FormatVisitor::visitExp(LuaParser::ExpContext* ctx) {
             length++;  // calc the white space after operator
             popWriter();
             beyondLimit = cur_columns() + length > config_.get<int>("column_limit");
+            if (beyondLimit && ctx->exp()[1]->tableconstructor() &&
+                indent().size() + length > config_.get<int>("column_limit")) {
+              beyondLimit = false; // keep { on this line
+            }
             if (beyondLimit && op != "^") {
                 cur_writer() << commentAfterNewLine(ctx->linkOperator(), INC_CONTINUATION_INDENT);
                 cur_writer() << indent();
