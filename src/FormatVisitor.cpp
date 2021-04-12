@@ -93,6 +93,18 @@ std::string FormatVisitor::commentAfter(tree::ParseTree* node, const std::string
             if (token->getText() == "\n" || token->getText() == "\n\n") {
               ss << token->getText(); // do not squish lines
               lastComment = false;
+            } else if (token->getText()[0] == '\n' && i + 1 < tokens_.size()) {
+              auto* nextToken = tokens_[i + 1];
+              if (nextToken->getType() == LuaLexer::COMMENT || nextToken->getType() == LuaLexer::LINE_COMMENT) {
+                // Keep indented comment on next line.
+                if (token->getText().find("\n\n" + indent()) == 0) {
+                  ss << "\n\n" + indent();
+                  lastComment = false;
+                } else if (token->getText().find("\n" + indent()) == 0) {
+                  ss << "\n" + indent();
+                  lastComment = false;
+                }
+              }
             }
         } else {
             break;
