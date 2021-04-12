@@ -980,7 +980,8 @@ antlrcpp::Any FormatVisitor::visitExp(LuaParser::ExpContext* ctx) {
         visitExp(ctx->exp()[0]);
         bool hasIncIndent = false;
         if (config_.get<bool>("break_after_operator")) {
-            cur_writer() << commentAfter(ctx->exp()[0], " ");
+            const std::string& op = ctx->linkOperator()->getText();
+            cur_writer() << commentAfter(ctx->exp()[0], op != "^" ? " " : "");
             cur_writer() << ctx->linkOperator()->getText();
             bool beyondLimit = false;
             pushWriter();
@@ -989,12 +990,12 @@ antlrcpp::Any FormatVisitor::visitExp(LuaParser::ExpContext* ctx) {
             length++;  // calc the white space after operator
             popWriter();
             beyondLimit = cur_columns() + length > config_.get<int>("column_limit");
-            if (beyondLimit) {
+            if (beyondLimit && op != "^") {
                 cur_writer() << commentAfterNewLine(ctx->linkOperator(), INC_CONTINUATION_INDENT);
                 cur_writer() << indentWithAlign();
                 hasIncIndent = true;
             } else {
-                cur_writer() << commentAfter(ctx->linkOperator(), " ");
+                cur_writer() << commentAfter(ctx->linkOperator(), op != "^" ? " " : "");
             }
             visitExp(ctx->exp()[1]);
         } else {
