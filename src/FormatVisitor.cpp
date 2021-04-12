@@ -846,7 +846,7 @@ antlrcpp::Any FormatVisitor::visitExplist(LuaParser::ExplistContext* ctx) {
     // var:foo(xxxx .. xxxx) -- no break
     // longlonglonglongvar:foo(
     //     xxxx .. xxxx) --  break
-    if (lines > 1 && cur_columns() > config_.get<int>("column_limit") / 2) {
+    if (lines > 1 && cur_columns() > config_.get<int>("column_limit") * 3 / 4) {
         beyondLimit = true;
     }
     if (!functioncallLpHasBreak_.empty() && functioncallLpHasBreak_.back()){
