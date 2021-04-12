@@ -992,7 +992,7 @@ antlrcpp::Any FormatVisitor::visitExp(LuaParser::ExpContext* ctx) {
             beyondLimit = cur_columns() + length > config_.get<int>("column_limit");
             if (beyondLimit && op != "^") {
                 cur_writer() << commentAfterNewLine(ctx->linkOperator(), INC_CONTINUATION_INDENT);
-                cur_writer() << indentWithAlign();
+                cur_writer() << indent();
                 hasIncIndent = true;
             } else {
                 cur_writer() << commentAfter(ctx->linkOperator(), op != "^" ? " " : "");
