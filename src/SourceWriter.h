@@ -43,5 +43,5 @@ class SourceWriter {
     int firstLineColumn() { return columns_.front() - initialColumn_; }
     int lines() const { return lines_; }
     void set_volatile(bool v) { volatile_ = v; }
-    bool isLastCharWhiteSpace() const { return ' ' == lastChar_; }
+    bool isLastCharWhiteSpace() const { return ' ' == lastChar_ || '\t' == lastChar_; }
 };
