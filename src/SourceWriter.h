@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "Config.h"
+
 class SourceWriter {
    private:
     std::stringstream ss_;
@@ -13,10 +15,11 @@ class SourceWriter {
     bool volatile_ = false;
     char lastChar_ = 0;
     int initialColumn_ = 0;
+    const Config& config_;
 
    public:
-    SourceWriter() { columns_.push_back(0); }
-    SourceWriter(int initialColumn) {
+    SourceWriter(const Config& config) : config_(config) { columns_.push_back(0); }
+    SourceWriter(const Config& config, int initialColumn) : config_(config) {
         initialColumn_ = initialColumn;
         columns_.push_back(initialColumn);
     }
@@ -26,6 +29,8 @@ class SourceWriter {
             if (c == '\n') {
                 lines_++;
                 columns_.push_back(0);
+            } else if (c == '\t') {
+                columns_[columns_.size() - 1] += config_.get<int>("tab_width");
             } else {
                 columns_[columns_.size() - 1]++;
             }

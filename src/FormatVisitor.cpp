@@ -199,7 +199,7 @@ std::string FormatVisitor::commentAfterNewLine(tree::ParseTree* node, NewLineInd
 }
 
 void FormatVisitor::pushWriter() {
-    SourceWriter* writer = new SourceWriter(0);
+    SourceWriter* writer = new SourceWriter(config_, 0);
     if (!writers_.empty()) {
         writer->set_volatile(true);
     }
@@ -207,7 +207,7 @@ void FormatVisitor::pushWriter() {
 }
 
 void FormatVisitor::pushWriterWithColumn() {
-    SourceWriter* writer = new SourceWriter(cur_columns());
+    SourceWriter* writer = new SourceWriter(config_, cur_columns());
     if (!writers_.empty()) {
         writer->set_volatile(true);
     }
